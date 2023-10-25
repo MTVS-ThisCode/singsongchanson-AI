@@ -25,6 +25,7 @@ import io
 import torch
 import boto3
 import os
+from lc_project import analyze_input
 
 app = Flask(__name__)
 
@@ -61,7 +62,20 @@ def generate_music():
     use_diffusion = False
     use_custom = False
 
-    prompt = keyword
+    TEMPLATE = """
+        Based on the depiction of '{depiction}', compose a '{genre}'-genre track where a series of captivating melodies evolve and 
+        transition into one another, creating a flowing narrative throughout the entire duration, blending the sounds associated 
+        with '{element}' and natural elements. Ensure the melodies remain the focus, ready to be paired with lyrics for singing, 
+        while presenting a structured musical narrative akin to mainstream pop, with clear progression through varying musical sections such as verses, 
+        choruses, and a bridge. The beats should provide a rhythmic foundation, with '{instrument}'-appropriate instruments enhancing the tranquility and 
+        liveliness associated with '{element}', intertwining with the evolving melodies to create a rich, 
+        dynamic soundscape with a coherent musical journey. Genre: '{genre}'
+        """
+
+    analyzed_data = analyze_input(keyword)
+    filled_template = TEMPLATE.format(**analyzed_data)
+    prompt = filled_template
+    print("prompt = ", prompt)
 
     # Check if the model name is valid
     if model_name not in [
