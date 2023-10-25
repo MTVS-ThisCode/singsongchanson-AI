@@ -38,17 +38,30 @@ BUCKET_NAME = os.environ.get('BUCKET_NAME')
 @app.route("/generate_music", methods=["POST"])
 def generate_music():
     # Get the model name, duration, prompt, and strategy from the request body
-    print(request.json)
-    model_name = request.json.get("model_name")
-    duration = request.json.get("duration")
-    prompt = request.json.get("prompt")
-    strategy = request.json.get("strategy")
-    sampling = request.json.get("sampling")
-    top_k = request.json.get("top_k")
-    top_p = request.json.get("top_p")
-    temperature = request.json.get("temperature")
-    use_diffusion = request.json.get("use_diffusion")
-    use_custom = request.json.get("use_custom")
+    # print(request.json)
+    # model_name = request.json.get("model_name")
+    # duration = request.json.get("duration")
+    # prompt = request.json.get("prompt")
+    # strategy = request.json.get("strategy")
+    # sampling = request.json.get("sampling")
+    # top_k = request.json.get("top_k")
+    # top_p = request.json.get("top_p")
+    # temperature = request.json.get("temperature")
+    # use_diffusion = request.json.get("use_diffusion")
+    # use_custom = request.json.get("use_custom")
+    keyword = request.json.get("keyword")
+
+    model_name = "facebook/musicgen-large"
+    duration = 30
+    strategy = "loudness"
+    sampling = True
+    top_k = 0
+    top_p = 0.9
+    temperature = 0.9
+    use_diffusion = False
+    use_custom = False
+
+    prompt = keyword
 
     # Check if the model name is valid
     if model_name not in [
